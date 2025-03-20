@@ -1,12 +1,12 @@
-import {View, StyleSheet, Box, Pressable} from 'react-native';
-import Constants from 'expo-constants';
-import H2 from "../Text/H2";
+import {View, StyleSheet, Pressable} from 'react-native';
 import Tab from "./Tab";
 import theme from "../../theme";
+import {useNavigate} from "react-router-native";
 
 const styles = StyleSheet.create({
   appBar: {
-    paddingTop: Constants.statusBarHeight + 20,
+    // paddingTop: Constants.statusBarHeight + 20,
+    paddingTop: 20,
     paddingBottom: 20,
     flexDirection: 'row',
     alignItems: 'center',
@@ -14,14 +14,18 @@ const styles = StyleSheet.create({
   }
 });
 
-let count = 0;
-
 const AppBar = () => {
+  const navigate = useNavigate();
   return <View style={styles.appBar}>
     <Pressable onPress={() => {
-      console.log(`pressed ${count++} times!`);
+      navigate("/");
     }}>
       <Tab>Repositories</Tab>
+    </Pressable>
+    <Pressable onPress={() => {
+      navigate("/login");
+    }}>
+      <Tab>Sign in</Tab>
     </Pressable>
   </View>;
 };
