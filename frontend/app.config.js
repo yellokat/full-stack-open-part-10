@@ -5,6 +5,7 @@ export default {
     env: process.env.ENV,
     apolloUri: process.env.APOLLO_URI
   },
+  newArchEnabled: true,
   name: "full-stack-open-part-10",
   slug: "full-stack-open-part-10",
   version: "1.0.0",
