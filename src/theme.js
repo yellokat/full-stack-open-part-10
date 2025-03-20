@@ -14,6 +14,8 @@ const theme = {
   },
   fonts: {
     main: 'System',
+    roboto: 'roboto',
+    arial: 'arial'
   },
   fontWeights: {
     normal: '400',
