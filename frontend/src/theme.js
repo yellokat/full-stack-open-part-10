@@ -1,3 +1,15 @@
+import {Platform} from "react-native";
+
+const getPlatformSpecificFont = () => {
+  if (Platform.OS === "android") {
+    return 'roboto'
+  } else if (Platform.OS === "ios") {
+    return 'arial'
+  } else {
+    return 'System'
+  }
+}
+
 const theme = {
   colors: {
     textPrimary: '#24292e',
@@ -13,16 +25,14 @@ const theme = {
     heading: 24,
   },
   fonts: {
-    main: 'System',
-    roboto: 'roboto',
-    arial: 'arial'
+    main: getPlatformSpecificFont()
   },
   fontWeights: {
     normal: '400',
     bold: '700',
   },
-  thumbnail:{
-    width:50,
+  thumbnail: {
+    width: 50,
     height: 50,
     borderRadius: 10,
   }

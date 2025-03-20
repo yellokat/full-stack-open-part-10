@@ -26,12 +26,6 @@ const styles = StyleSheet.create({
   },
   fontWeightBold: {
     fontWeight: theme.fontWeights.bold,
-  },
-  fontFamilyRoboto: {
-    fontFamily: theme.fonts.roboto,
-  },
-  fontFamilyArial: {
-    fontFamily: theme.fonts.arial,
   }
 });
 
@@ -44,8 +38,6 @@ const Text = ({ color, fontSize, fontWeight, style, ...props }) => {
     fontSize === 'heading' && styles.fontSizeHeading,
     fontSize === 'subheading' && styles.fontSizeSubheading,
     fontWeight === 'bold' && styles.fontWeightBold,
-    Platform.OS === 'android' && styles.fontFamilyRoboto,
-    Platform.OS === 'ios' && styles.fontFamilyArial,
     style,
   ];
 

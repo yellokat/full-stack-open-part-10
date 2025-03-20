@@ -51,19 +51,17 @@ const validationSchema = yup.object().shape({
 });
 
 const UsernameErrorMessage = ({formik}) => {
-  return <>
-    {formik.touched.username && formik.errors.username && (
-      <Text style={{color: 'red'}}>{formik.errors.username}</Text>
-    )}
-  </>
+  if (formik.touched.username && formik.errors.username) {
+    return <Text style={{color: 'red'}}>{formik.errors.username}</Text>
+  }
+  return <></>
 }
 
 const PasswordErrorMessage = ({formik}) => {
-  return <>
-    {formik.touched.password && formik.errors.password && (
-      <Text style={{color: 'red'}}>{formik.errors.password}</Text>
-    )}
-  </>
+  if(formik.touched.password && formik.errors.password){
+    return <Text style={{color: 'red'}}>{formik.errors.password}</Text>
+  }
+  return <></>
 }
 
 const SignInForm = () => {
@@ -80,7 +78,7 @@ const SignInForm = () => {
           style={styles.input}
           placeholder="Username"
           value={formik.values.username}
-          borderColor={formik.errors.username ? theme.colors.error : null}
+          borderColor={(formik.touched.username && formik.errors.username) ? theme.colors.error : null}
           onChangeText={formik.handleChange('username')}
         />
         <UsernameErrorMessage formik={formik}/>
@@ -90,7 +88,7 @@ const SignInForm = () => {
           style={styles.input}
           placeholder="Password"
           value={formik.values.password}
-          borderColor={formik.errors.password ? theme.colors.error : null}
+          borderColor={(formik.touched.username && formik.errors.password) ? theme.colors.error : null}
           onChangeText={formik.handleChange('password')}
           secureTextEntry={true}
         />

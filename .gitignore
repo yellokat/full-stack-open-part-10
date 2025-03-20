@@ -3,6 +3,9 @@
 # IDE related
 **/.idea/
 
+# secrets
+**/.env
+
 # dependencies
 node_modules/
 
