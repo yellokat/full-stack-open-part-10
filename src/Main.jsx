@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native';
-import RepositoryList from "./RepositoryList";
-import Text from './Text/Text';
-import AppBar from "./AppBar/AppBar";
+import RepositoryList from "./pages/RepositoryListPage/RepositoryList";
+import Text from './components/Text/Text';
+import AppBar from "./components/AppBar/AppBar";
 
 const styles = StyleSheet.create({
   container: {
