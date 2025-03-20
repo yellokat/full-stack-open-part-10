@@ -1,13 +1,13 @@
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
 # IDE related
-.idea/
+**/.idea/
 
 # dependencies
 node_modules/
 
 # Expo
-.expo/
+**/.expo/
 dist/
 web-build/
 
