@@ -13,9 +13,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const RepositoryStats = ({title, value}) => {
+const RepositoryStats = ({testID, title, value}) => {
   return (
-    <View style={styles.column} alignItems="center" justifyContent="center">
+    <View testID={testID} style={styles.column} alignItems="center" justifyContent="center">
       <View style={styles.container}>
         <Text fontWeight="bold">{value}</Text>
       </View>

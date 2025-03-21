@@ -13,14 +13,25 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-const RepositoryList = () => {
-  const { repositories } = useRepositories()
+export const RepositoryListContainer = ({ repositories }) => {
   return (
     <FlatList
       data={repositories}
       ItemSeparatorComponent={ItemSeparator}
       renderItem={({item}) => <RepositoryItem {...item} />}
     />
+  );
+};
+
+const RepositoryList = () => {
+  const { repositories } = useRepositories()
+
+  if(!repositories){
+    return null;
+  }
+
+  return (
+    <RepositoryListContainer repositories={repositories}/>
   );
 };
 

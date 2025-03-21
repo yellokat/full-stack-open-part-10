@@ -50,7 +50,7 @@ const truncateIfNeeded = (num) => {
 
 const RepositoryItem = ({fullName, description, language, forksCount, stargazersCount, reviewCount, ratingAverage}) => {
   return (
-    <View style={styles.container}>
+    <View testID="repositoryItem" style={styles.container}>
       <View style={styles.column}>
         <View style={styles.row}>
           <View style={styles.imageContainer}>
@@ -69,10 +69,10 @@ const RepositoryItem = ({fullName, description, language, forksCount, stargazers
         </View>
         <View gap={50}/>
         <View style={styles.row} justifyContent="space-evenly">
-          <RepositoryStats title="Stars" value={truncateIfNeeded(stargazersCount)}/>
-          <RepositoryStats title="Forks" value={truncateIfNeeded(forksCount)}/>
-          <RepositoryStats title="Reviews" value={truncateIfNeeded(reviewCount)}/>
-          <RepositoryStats title="Rating" value={truncateIfNeeded(ratingAverage)}/>
+          <RepositoryStats testID="repositoryStatStars" title="Stars" value={truncateIfNeeded(stargazersCount)}/>
+          <RepositoryStats testID="repositoryStatForks" title="Forks" value={truncateIfNeeded(forksCount)}/>
+          <RepositoryStats testID="repositoryStatReviews" title="Reviews" value={truncateIfNeeded(reviewCount)}/>
+          <RepositoryStats testID="repositoryStatRating" title="Rating" value={truncateIfNeeded(ratingAverage)}/>
         </View>
       </View>
     </View>

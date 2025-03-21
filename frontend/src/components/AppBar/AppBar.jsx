@@ -23,7 +23,11 @@ const AppBar = () => {
   const authStorage = useAuthStorage();
   const apolloClient = useApolloClient()
 
-  const isLoggedIn = (data.me===null)
+  if(!data){
+    return null
+  }
+
+  const isLoggedIn = (!!data && !!data.me)
 
   const SignInTab = () => {
     return <Pressable onPress={() => {
@@ -50,7 +54,7 @@ const AppBar = () => {
       }}>
         <Tab>Repositories</Tab>
       </Pressable>
-      {isLoggedIn?<SignInTab />:<SignOutTab />}
+      {isLoggedIn?<SignOutTab />:<SignInTab />}
     </ScrollView>
   </View>;
 };
