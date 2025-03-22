@@ -30,6 +30,20 @@ export const GET_REPOSITORY = gql`
             forksCount
             description
             language
+            reviews {
+                edges {
+                    node {
+                        id
+                        text
+                        rating
+                        createdAt
+                        user {
+                            id
+                            username
+                        }
+                    }
+                }
+            }
         }
     }
 `
