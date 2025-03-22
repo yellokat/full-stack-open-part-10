@@ -4,6 +4,7 @@ import {StyleSheet, Pressable, TextInput, View} from "react-native";
 import theme from "../../theme";
 import * as yup from 'yup';
 import useSignIn from "../../hooks/useSignIn";
+import CustomButton from "../../components/CustomButton";
 
 const styles = StyleSheet.create({
   background: {
@@ -24,16 +25,6 @@ const styles = StyleSheet.create({
   column: {
     flexDirection: "column",
     gap: 20,
-  },
-  buttonContainer: {
-    backgroundColor: theme.colors.primary,
-    borderRadius: 7,
-    height: 60,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  button: {
-    margin: 5,
   }
 })
 
@@ -109,13 +100,7 @@ const SignInForm = () => {
       />
       <PasswordErrorMessage formik={formik}/>
     </View>
-    <Pressable testID="signInButton" onPress={formik.handleSubmit}>
-      <View style={styles.buttonContainer}>
-        <View style={styles.button}>
-          <Text fontSize="subheading" color="white">Sign In</Text>
-        </View>
-      </View>
-    </Pressable>
+    <CustomButton text="Sign In" testID="signInButton" onPress={formik.handleSubmit} />
   </View>
 }
 

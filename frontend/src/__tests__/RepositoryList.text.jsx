@@ -1,4 +1,4 @@
-import {RepositoryListContainer} from "../pages/RepositoryListPage/RepositoryList";
+import {RepositoryListContainer} from "../pages/RepositoryPage/RepositoryListPage";
 import {render, screen, within} from "@testing-library/react-native";
 
 
@@ -50,7 +50,8 @@ describe('RepositoryList', () => {
 
       // render component
       const repositoryNodes = repositories.edges.map(edge => edge.node)
-      render(<RepositoryListContainer repositories={repositoryNodes} />);
+      const onPressed = jest.fn();
+      render(<RepositoryListContainer repositories={repositoryNodes} onPressed={onPressed}/>);
 
       // expect 2 list items
       const items = screen.getAllByTestId('repositoryItem')

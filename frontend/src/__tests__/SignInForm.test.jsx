@@ -31,7 +31,5 @@ describe.only('SignInForm', () => {
         }
       )
     })
-
-    screen.debug()
   });
 });

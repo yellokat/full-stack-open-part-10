@@ -12,6 +12,7 @@ const useRepositories = () => {
       const repos = data.repositories.edges
         .map((edge) => edge.node)
         .map((node) => ({
+          id: node.id,
           description: node.description,
           forksCount: node.forksCount,
           fullName: node.fullName,
