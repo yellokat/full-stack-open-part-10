@@ -47,6 +47,14 @@ const AppBar = () => {
     </Pressable>
   }
 
+  const CreateReviewTab = () => {
+    return <Pressable onPress={() => {
+      navigate("/createReview");
+    }}>
+      <Tab>Create a review</Tab>
+    </Pressable>
+  }
+
   return <View style={styles.appBar}>
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
       <Pressable onPress={() => {
@@ -54,6 +62,7 @@ const AppBar = () => {
       }}>
         <Tab>Repositories</Tab>
       </Pressable>
+      {isLoggedIn?<CreateReviewTab />:null}
       {isLoggedIn?<SignOutTab />:<SignInTab />}
     </ScrollView>
   </View>;
