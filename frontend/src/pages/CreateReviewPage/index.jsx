@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, TextInput, View} from "react-native";
 import theme from "../../theme";
 import useSignIn from "../../hooks/useSignIn";
+import useCreateReview from '../../hooks/useCreateReview'
 import {SignInContainer} from "../SignInPage/SignInPage";
 import * as yup from "yup";
 import {Formik, useFormikContext} from "formik";
@@ -23,6 +24,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     padding: 10,
+  },
+  inputWithoutHeightLimit: {
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
+    minHeight: 60
   },
   column: {
     flexDirection: "column",
@@ -49,10 +56,10 @@ export const CreateReviewContainer = ({handleCreateReview}) => {
     const {repositoryOwnerName, repositoryName, rating, review} = values;
     try {
       await handleCreateReview({
-        repositoryOwnerName,
+        ownerName: repositoryOwnerName,
         repositoryName,
         rating:Number(rating),
-        review
+        text: review
       })
     } catch (e) {
       // display error
@@ -138,7 +145,9 @@ const CreateReviewForm = () => {
     </View>
     <View>
       <TextInput
-        style={styles.input}
+        style={styles.inputWithoutHeightLimit}
+        multiline={true}
+        numberOfLines={5}
         placeholder="Review"
         value={formik.values.review}
         borderColor={(formik.touched.review && formik.errors.review) ? theme.colors.error : null}
@@ -151,10 +160,10 @@ const CreateReviewForm = () => {
 }
 
 const CreateReviewPage = () => {
-  const [signIn] = useSignIn();
+  const [createReview] = useCreateReview();
   return <View style={styles.background}>
     <View style={styles.container}>
-      <CreateReviewContainer handleSignIn={signIn}/>
+      <CreateReviewContainer handleCreateReview={createReview}/>
     </View>
   </View>
 };
