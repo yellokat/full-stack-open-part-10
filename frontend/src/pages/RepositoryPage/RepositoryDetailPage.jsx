@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
 const RepositoryDetailPage = () => {
   const repositoryId = useParams().id
   const response = useQuery(GET_REPOSITORY, {
+    fetchPolicy: "cache-and-network",
     variables: {
       id: repositoryId
     }
@@ -74,10 +75,7 @@ const RepositoryDetailPage = () => {
   const repoData = response.data.repository;
   const reviews = repoData.reviews.edges.map(edge => edge.node)
 
-  console.log(reviews);
-
   const onPress = (url) => {
-    console.log(`pressed! url : ${url}`)
     Linking.openURL(url)
   }
 
