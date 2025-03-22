@@ -23,7 +23,7 @@ const AppBar = () => {
   const authStorage = useAuthStorage();
   const apolloClient = useApolloClient()
 
-  if(!data){
+  if (!data) {
     return null
   }
 
@@ -55,6 +55,28 @@ const AppBar = () => {
     </Pressable>
   }
 
+  const SignUpTab = () => {
+    return <Pressable onPress={() => {
+      navigate("/signUp");
+    }}>
+      <Tab>Sign Up</Tab>
+    </Pressable>
+  }
+
+  const PublicTabs = () => {
+    return <>
+      <SignInTab/>
+      <SignUpTab/>
+    </>
+  }
+
+  const PrivateTabs = () => {
+    return <>
+      <CreateReviewTab/>
+      <SignOutTab/>
+    </>
+  }
+
   return <View style={styles.appBar}>
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
       <Pressable onPress={() => {
@@ -62,8 +84,7 @@ const AppBar = () => {
       }}>
         <Tab>Repositories</Tab>
       </Pressable>
-      {isLoggedIn?<CreateReviewTab />:null}
-      {isLoggedIn?<SignOutTab />:<SignInTab />}
+      {isLoggedIn ? <PrivateTabs/> : <PublicTabs/>}
     </ScrollView>
   </View>;
 };
