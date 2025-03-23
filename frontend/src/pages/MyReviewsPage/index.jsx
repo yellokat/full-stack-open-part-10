@@ -1,13 +1,14 @@
 import React from 'react';
-import {FlatList, Pressable, StyleSheet, View} from "react-native";
+import {Alert, FlatList, Pressable, StyleSheet, View} from "react-native";
 import theme from "../../theme";
-import {useQuery} from "@apollo/client";
+import {useMutation, useQuery} from "@apollo/client";
 import {ME} from "../../graphql/queries";
 import RepositoryItem from "../RepositoryPage/RepositoryItem";
 import {format, parseISO} from "date-fns";
 import Text from "../../components/Text/Text";
 import CustomButton from "../../components/CustomButton";
 import {useNavigate} from "react-router-native";
+import {DELETE_REVIEW} from "../../graphql/mutations";
 
 const styles = StyleSheet.create({
   background: {
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     backgroundColor: theme.colors.white,
   },
-  flexRow:{
+  flexRow: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignItems: 'stretch',
@@ -81,13 +82,41 @@ const MyReviewsPage = () => {
       includeReviews: true
     }
   })
+  const [mutate, result] = useMutation(DELETE_REVIEW, {
+      onError: (err) => {
+        throw new Error("Failed to create review with error: " + err.message)
+      }
+    })
 
   if (!data) {
     return null
   }
 
   const reviews = data.me.reviews.edges.map(edge => edge.node)
-  console.log(JSON.stringify(reviews))
+
+  const handleDelete = (reviewId) => {
+    Alert.alert(
+      "Delete review",
+      "Are you sure you want to delete this review?",
+      [
+        {
+          text: 'cancel',
+          style: 'cancel'
+        },
+        {
+          text: 'delete',
+          onPress: async () => {
+            await mutate({
+              variables:{
+                deleteReviewId: reviewId
+              }
+            })
+            await refetch();
+          },
+          style: 'destructive'
+        },
+      ])
+  }
 
   return (
     <FlatList
@@ -111,10 +140,19 @@ const MyReviewsPage = () => {
               <View style={styles.spacer}/>
               <View style={styles.flexRow}>
                 <View flex={1}>
-                <CustomButton text="View repository" onPress={()=>{navigate(`/${item.repository.id}`)}}/>
+                  <CustomButton
+                    text="View repository"
+                    onPress={() => {
+                      navigate(`/${item.repository.id}`)
+                    }}
+                  />
                 </View>
                 <View flex={1}>
-                <CustomButton isDangerous={true} text="Delete review"/>
+                  <CustomButton
+                    isDangerous={true}
+                    text="Delete review"
+                    onPress={() => handleDelete(item.id)}
+                  />
                 </View>
               </View>
             </View>
