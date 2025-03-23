@@ -6,6 +6,7 @@ import useRepositories from "../../hooks/useRepositories";
 import {useNavigate} from "react-router-native";
 import {Picker} from '@react-native-picker/picker';
 import {Searchbar} from 'react-native-paper';
+import _ from 'lodash';
 
 const styles = StyleSheet.create({
   separator: {
@@ -38,7 +39,7 @@ export class RepositoryListContainer extends React.Component {
       placeholder="Search repositories..."
       onChangeText={(changedText)=>{
         this.setState({...this.state, searchPhrase: changedText})
-        this.props.handleSearchBarChange(changedText);
+        this.props.handleSearchBarChange(changedText)
       }}
       value={this.state.searchPhrase}
     />
@@ -107,7 +108,7 @@ const RepositoryListPage = () => {
   }
 
   return (
-    <RepositoryListContainer repositories={repositories} onPressed={onPressed} pickerMenu={<SortByPickerMenu/>} handleSearchBarChange={handleSearchBarChange}/>
+    <RepositoryListContainer repositories={repositories} onPressed={onPressed} pickerMenu={<SortByPickerMenu/>} handleSearchBarChange={_.debounce(handleSearchBarChange, 500)}/>
   );
 };
 
