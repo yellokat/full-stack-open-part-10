@@ -10,6 +10,8 @@ import * as Linking from 'expo-linking';
 import Text from '../../components/Text/Text';
 import {format, parseISO} from "date-fns";
 
+const REVIEW_LIST_PAGESIZE = 2;
+
 const styles = StyleSheet.create({
   background: {
     backgroundColor: theme.colors.backgroundGrey,
@@ -51,29 +53,32 @@ const styles = StyleSheet.create({
     color: "primary",
     fontWeight: "bold"
   },
-  reviewerTextStyle:{
+  reviewerTextStyle: {
     fontWeight: "bold"
   },
-  reviewDateTextStyle:{
+  reviewDateTextStyle: {
     color: theme.colors.textSecondary
   }
 });
 
 const RepositoryDetailPage = () => {
   const repositoryId = useParams().id
-  const response = useQuery(GET_REPOSITORY, {
+  const {data, loading, fetchMore} = useQuery(GET_REPOSITORY, {
     fetchPolicy: "cache-and-network",
     variables: {
-      id: repositoryId
+      id: repositoryId,
+      pageSize: REVIEW_LIST_PAGESIZE,
+      after: ""
     }
   })
 
-  if (!response.data) {
+  if (!data) {
     return null;
   }
 
-  const repoData = response.data.repository;
+  const repoData = data.repository;
   const reviews = repoData.reviews.edges.map(edge => edge.node)
+  const pageInfo = repoData.reviews.pageInfo
 
   const onPress = (url) => {
     Linking.openURL(url)
@@ -85,6 +90,30 @@ const RepositoryDetailPage = () => {
   }
 
   const ItemSeparator = () => <View style={styles.separator}/>;
+
+  // ========================================================================
+  // infinite scroll pagination
+  // ========================================================================
+
+  const handleFetchMore = () => {
+    const canFetchMore = !loading && pageInfo.hasNextPage;
+
+    if (!canFetchMore) {
+      return;
+    }
+
+    fetchMore({
+      variables: {
+        id: repositoryId,
+        after: pageInfo.endCursor,
+        first: REVIEW_LIST_PAGESIZE
+      },
+    });
+  };
+
+  const onEndReached = () => {
+    handleFetchMore()
+  }
 
   return (
     <View style={styles.background}>
@@ -117,8 +146,8 @@ const RepositoryDetailPage = () => {
               </View>
               <ItemSeparator/>
             </View>
-
           }
+          onEndReached={onEndReached}
           ItemSeparatorComponent={ItemSeparator}
         >
 

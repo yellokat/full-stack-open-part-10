@@ -29,7 +29,7 @@ export const GET_REPOSITORIES = gql`
 `;
 
 export const GET_REPOSITORY = gql`
-    query getRepository($id: ID!) {
+    query getRepository($id: ID!, $pageSize: Int!, $after:String!) {
         repository(id: $id){
             url
             fullName
@@ -39,7 +39,7 @@ export const GET_REPOSITORY = gql`
             forksCount
             description
             language
-            reviews {
+            reviews(first:$pageSize, after: $after) {
                 edges {
                     node {
                         id
@@ -51,6 +51,11 @@ export const GET_REPOSITORY = gql`
                             username
                         }
                     }
+                }
+                pageInfo {
+                    endCursor,
+                    startCursor,
+                    hasNextPage
                 }
             }
         }
