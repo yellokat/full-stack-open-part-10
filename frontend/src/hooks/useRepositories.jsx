@@ -2,23 +2,27 @@ import {useState, useEffect} from 'react';
 import {useQuery} from "@apollo/client";
 import {GET_REPOSITORIES} from "../graphql/queries";
 
-const useRepositories = (sortBy) => {
+const useRepositories = ({sortBy, searchPhrase}) => {
+
   const getVariables = () => {
     switch(sortBy){
       case "latest":
         return {
           orderBy: "CREATED_AT",
-          orderDirection: "DESC"
+          orderDirection: "DESC",
+          searchKeyword: searchPhrase
         }
       case "ratingDescending":
         return{
           orderBy: "RATING_AVERAGE",
-          orderDirection: "DESC"
+          orderDirection: "DESC",
+          searchKeyword: searchPhrase
         }
       case "ratingAscending":
         return {
           orderBy: "RATING_AVERAGE",
-          orderDirection: "ASC"
+          orderDirection: "ASC",
+          searchKeyword: searchPhrase
         }
     }
   }

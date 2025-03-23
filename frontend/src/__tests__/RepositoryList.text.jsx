@@ -1,10 +1,10 @@
 import {RepositoryListContainer} from "../pages/RepositoryPage/RepositoryListPage";
-import {render, screen, within} from "@testing-library/react-native";
+import {act, render, screen, waitFor, within} from "@testing-library/react-native";
 
 
 describe('RepositoryList', () => {
   describe('RepositoryListContainer', () => {
-    it('renders repository information correctly', () => {
+    it('renders repository information correctly', async () => {
       const repositories = {
         totalCount: 8,
         pageInfo: {
@@ -51,11 +51,13 @@ describe('RepositoryList', () => {
       // render component
       const repositoryNodes = repositories.edges.map(edge => edge.node)
       const onPressed = jest.fn();
-      render(<RepositoryListContainer repositories={repositoryNodes} onPressed={onPressed}/>);
+      render(<RepositoryListContainer repositories={repositoryNodes} onPressed={onPressed} pickerMenu={<></>}/>);
 
       // expect 2 list items
       const items = screen.getAllByTestId('repositoryItem')
-      expect(items).toHaveLength(2);
+      await waitFor(() => {
+        expect(items).toHaveLength(2);
+      });
 
       const stars = within(items[0]).getAllByTestId("repositoryStatStars")
       const allStars = screen.getAllByTestId('repositoryStatStars')
