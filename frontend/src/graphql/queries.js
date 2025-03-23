@@ -10,8 +10,8 @@ export const CREATE_USER = gql`
 `
 
 export const GET_REPOSITORIES = gql`
-    query($orderDirection: OrderDirection, $orderBy: AllRepositoriesOrderBy) {
-        repositories(orderDirection: $orderDirection, orderBy: $orderBy) {
+    query($orderDirection: OrderDirection, $orderBy: AllRepositoriesOrderBy, $searchKeyword: String!) {
+        repositories(orderDirection: $orderDirection, orderBy: $orderBy, searchKeyword: $searchKeyword) {
             edges {
                 node {
                     id

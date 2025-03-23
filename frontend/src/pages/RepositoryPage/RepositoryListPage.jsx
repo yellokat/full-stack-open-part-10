@@ -38,6 +38,7 @@ export class RepositoryListContainer extends React.Component {
       placeholder="Search repositories..."
       onChangeText={(changedText)=>{
         this.setState({...this.state, searchPhrase: changedText})
+        this.props.handleSearchBarChange(changedText);
       }}
       value={this.state.searchPhrase}
     />
@@ -77,9 +78,9 @@ export class RepositoryListContainer extends React.Component {
 
 const RepositoryListPage = () => {
   const navigate = useNavigate();
-  const [sortBy, setSortBy] = useState();
-  const {repositories} = useRepositories(sortBy)
-  // const [searchPhrase, setSearchPhrase] = useState('')
+  const [sortBy, setSortBy] = useState('latest');
+  const [searchPhrase, setSearchPhrase] = useState('')
+  const {repositories} = useRepositories({sortBy, searchPhrase})
 
   if (!repositories) {
     return null;
@@ -101,8 +102,12 @@ const RepositoryListPage = () => {
     </Picker>
   }
 
+  const handleSearchBarChange = (searchPhrase) => {
+    setSearchPhrase(searchPhrase);
+  }
+
   return (
-    <RepositoryListContainer repositories={repositories} onPressed={onPressed} pickerMenu={<SortByPickerMenu/>}/>
+    <RepositoryListContainer repositories={repositories} onPressed={onPressed} pickerMenu={<SortByPickerMenu/>} handleSearchBarChange={handleSearchBarChange}/>
   );
 };
 
