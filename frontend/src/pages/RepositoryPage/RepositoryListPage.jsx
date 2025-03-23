@@ -1,7 +1,7 @@
 import {FlatList, View, StyleSheet, Pressable} from 'react-native';
 import RepositoryItem from "./RepositoryItem";
 import theme from "../../theme";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import useRepositories from "../../hooks/useRepositories";
 import {useNavigate} from "react-router-native";
 import {Picker} from '@react-native-picker/picker';
@@ -20,33 +20,62 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator}/>;
 
-export const RepositoryListContainer = ({repositories, onPressed, headerComponent}) => {
+export class RepositoryListContainer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      sortBy: "latest",
+      searchPhrase: "",
+    }
+  }
 
-  return (
-    <FlatList
-      data={repositories}
-      ItemSeparatorComponent={ItemSeparator}
-      ListHeaderComponent={headerComponent}
-      renderItem={
-        ({item}) => {
-          return (
-            <Pressable onPress={() => {
-              onPressed({path: `/${item.id}`})
-            }}>
-              <RepositoryItem {...item}/>
-            </Pressable>
-          )
-        }
-      }
+  renderSearchBarMenu(){
+    return <Searchbar
+      placeholder="Search repositories..."
+      onChangeText={(changedText)=>{
+        this.setState({...this.state, searchPhrase: changedText})
+      }}
+      value={this.state.searchPhrase}
     />
-  );
+  }
+
+  renderHeader(){
+    return <>
+      <View style={styles.container}>
+        {this.props.pickerMenu}
+      </View>
+      {this.renderSearchBarMenu()}
+    </>
+  }
+
+  render() {
+    const props = this.props
+    return (
+      <FlatList
+        data={props.repositories}
+        ItemSeparatorComponent={ItemSeparator}
+        ListHeaderComponent={this.renderHeader()}
+        renderItem={
+          ({item}) => {
+            return (
+              <Pressable onPress={() => {
+                props.onPressed({path: `/${item.id}`})
+              }}>
+                <RepositoryItem {...item}/>
+              </Pressable>
+            )
+          }
+        }
+      />
+    );
+  }
 };
 
 const RepositoryListPage = () => {
   const navigate = useNavigate();
   const [sortBy, setSortBy] = useState();
   const {repositories} = useRepositories(sortBy)
-  const [searchPhrase, setSearchPhrase] = useState('')
+  // const [searchPhrase, setSearchPhrase] = useState('')
 
   if (!repositories) {
     return null;
@@ -60,7 +89,7 @@ const RepositoryListPage = () => {
     return <Picker
       selectedValue={sortBy}
       onValueChange={(itemValue, _) => {
-        setSortBy(itemValue)
+        setSortBy(itemValue);
       }}>
       <Picker.Item label="Latest Repositories" value="latest"/>
       <Picker.Item label="Highest Rated Repositories" value="ratingDescending"/>
@@ -68,25 +97,8 @@ const RepositoryListPage = () => {
     </Picker>
   }
 
-  const SearchBarMenu = () => {
-    return <Searchbar
-      placeholder="Search repositories..."
-      onChangeText={setSearchPhrase}
-      value={searchPhrase}
-    />
-  }
-
-  const HeaderComponent = () => {
-    return <>
-      <View style={styles.container}>
-        <SearchBarMenu/>
-      </View>
-      <SortByPickerMenu/>
-    </>
-  }
-
   return (
-    <RepositoryListContainer repositories={repositories} onPressed={onPressed} headerComponent={<HeaderComponent/>}/>
+    <RepositoryListContainer repositories={repositories} onPressed={onPressed} pickerMenu={<SortByPickerMenu/>}/>
   );
 };
 
