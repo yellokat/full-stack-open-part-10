@@ -18,9 +18,13 @@ const styles = StyleSheet.create({
   }
 });
 
-const ItemSeparator = () => <View style={styles.separator}/>;
+
 
 export class RepositoryListContainer extends React.Component {
+  renderItemSeparator(){
+    return <View style={styles.separator}/>;
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -53,7 +57,7 @@ export class RepositoryListContainer extends React.Component {
     return (
       <FlatList
         data={props.repositories}
-        ItemSeparatorComponent={ItemSeparator}
+        ItemSeparatorComponent={this.renderItemSeparator()}
         ListHeaderComponent={this.renderHeader()}
         renderItem={
           ({item}) => {
