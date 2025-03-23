@@ -42,6 +42,7 @@ const AppBar = () => {
       await authStorage.removeAccessToken()
       await apolloClient.resetStore()
       await refetch()
+      await navigate('/')
     }}>
       <Tab>Sign out</Tab>
     </Pressable>
