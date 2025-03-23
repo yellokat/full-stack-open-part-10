@@ -7,6 +7,7 @@ import RepositoryItem from "../RepositoryPage/RepositoryItem";
 import {format, parseISO} from "date-fns";
 import Text from "../../components/Text/Text";
 import CustomButton from "../../components/CustomButton";
+import {useNavigate} from "react-router-native";
 
 const styles = StyleSheet.create({
   background: {
@@ -74,6 +75,7 @@ const parseDate = (isoDateString) => {
 const ItemSeparator = () => <View style={styles.separator}/>;
 
 const MyReviewsPage = () => {
+  const navigate = useNavigate()
   const {data, refetch} = useQuery(ME, {
     variables: {
       includeReviews: true
@@ -85,6 +87,7 @@ const MyReviewsPage = () => {
   }
 
   const reviews = data.me.reviews.edges.map(edge => edge.node)
+  console.log(JSON.stringify(reviews))
 
   return (
     <FlatList
@@ -108,7 +111,7 @@ const MyReviewsPage = () => {
               <View style={styles.spacer}/>
               <View style={styles.flexRow}>
                 <View flex={1}>
-                <CustomButton text="View repository"/>
+                <CustomButton text="View repository" onPress={()=>{navigate(`/${item.repository.id}`)}}/>
                 </View>
                 <View flex={1}>
                 <CustomButton isDangerous={true} text="Delete review"/>
