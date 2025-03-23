@@ -21,6 +21,12 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     backgroundColor: theme.colors.white,
   },
+  flexRow:{
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'stretch',
+    gap: 10
+  },
   row: {
     flexDirection: 'row',
     gap: 20
@@ -32,6 +38,9 @@ const styles = StyleSheet.create({
   separator: {
     height: 10,
     backgroundColor: theme.colors.backgroundGrey,
+  },
+  spacer: {
+    height: 10
   },
   circle: {
     width: 60,
@@ -49,10 +58,10 @@ const styles = StyleSheet.create({
     color: "primary",
     fontWeight: "bold"
   },
-  reviewerTextStyle:{
+  reviewerTextStyle: {
     fontWeight: "bold"
   },
-  reviewDateTextStyle:{
+  reviewDateTextStyle: {
     color: theme.colors.textSecondary
   }
 });
@@ -83,16 +92,27 @@ const MyReviewsPage = () => {
       renderItem={
         ({item}) => {
           return <View style={styles.container}>
-            <View style={styles.row}>
-              <View style={[styles.circle, styles.center]}>
-                <Text {...styles.ratingTextStyle}>{item.rating}</Text>
-              </View>
-              <View style={styles.column}>
-                <View>
-                  <Text {...styles.reviewerTextStyle}>{item.repository.fullName}</Text>
-                  <Text {...styles.reviewDateTextStyle}>{parseDate(item.createdAt)}</Text>
+            <View style={styles.column}>
+              <View style={styles.row}>
+                <View style={[styles.circle, styles.center]}>
+                  <Text {...styles.ratingTextStyle}>{item.rating}</Text>
                 </View>
-                <Text>{item.text}</Text>
+                <View style={styles.column}>
+                  <View>
+                    <Text {...styles.reviewerTextStyle}>{item.repository.fullName}</Text>
+                    <Text {...styles.reviewDateTextStyle}>{parseDate(item.createdAt)}</Text>
+                  </View>
+                  <Text>{item.text}</Text>
+                </View>
+              </View>
+              <View style={styles.spacer}/>
+              <View style={styles.flexRow}>
+                <View flex={1}>
+                <CustomButton text="View repository"/>
+                </View>
+                <View flex={1}>
+                <CustomButton isDangerous={true} text="Delete review"/>
+                </View>
               </View>
             </View>
           </View>

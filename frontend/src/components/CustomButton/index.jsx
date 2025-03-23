@@ -10,14 +10,26 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  dangerButtonContainer : {
+    backgroundColor: theme.colors.error,
+    borderRadius: 7,
+    height: 60,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   button: {
     margin: 5,
   }
 })
 
-const CustomButton = ({text, onPress, testID}) => {
+const CustomButton = ({text, onPress, isDangerous, testID}) => {
+  const buttonContainerStyle = [
+    styles.buttonContainer,
+    isDangerous ? styles.dangerButtonContainer : null,
+  ]
+
   return <Pressable testID={testID} onPress={onPress}>
-    <View style={styles.buttonContainer}>
+    <View style={buttonContainerStyle}>
       <View style={styles.button}>
         <Text fontSize="subheading" color="white">{text}</Text>
       </View>
