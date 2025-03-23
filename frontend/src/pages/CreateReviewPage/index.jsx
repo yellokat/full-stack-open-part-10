@@ -41,7 +41,7 @@ export const CreateReviewContainer = ({handleCreateReview}) => {
   const initialValues = {
     repositoryOwnerName: '',
     repositoryName: '',
-    rating: 0,
+    rating: null,
     review: ''
   };
 

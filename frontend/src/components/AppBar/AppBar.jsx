@@ -63,6 +63,14 @@ const AppBar = () => {
     </Pressable>
   }
 
+  const MyReviewsTab = () => {
+    return <Pressable onPress={() => {
+      navigate("/myReviews");
+    }}>
+      <Tab>My reviews</Tab>
+    </Pressable>
+  }
+
   const PublicTabs = () => {
     return <>
       <SignInTab/>
@@ -73,6 +81,7 @@ const AppBar = () => {
   const PrivateTabs = () => {
     return <>
       <CreateReviewTab/>
+      <MyReviewsTab/>
       <SignOutTab/>
     </>
   }
